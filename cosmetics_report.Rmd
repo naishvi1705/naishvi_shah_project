@@ -1,0 +1,40 @@
+---
+title: "Cosmetics Data Analysis"
+author: "Naishvi Shah"
+output: html_document
+---
+## Overview
+Exploratory data analysis of 1,472 Sephora cosmetics products using R.
+Dataset includes product category, brand, price, rating, and skin type suitability.
+
+## Load Data
+```{r}
+cosmetics <- read.csv("cosmetics 2.csv")
+summary(cosmetics)
+```
+## Products by Category
+```{r}
+category_counts <- table(cosmetics$Label)
+barplot(category_counts, main="Number of Products by Category",
+        col="pink", las=2, cex.names=0.7)
+```
+
+## Average Price by Category
+```{r}
+avg_price <- round(tapply(cosmetics$Price, cosmetics$Label, mean), 2)
+barplot(sort(avg_price, decreasing=TRUE), main="Average Price by Category",
+        col="lightcoral", las=2, cex.names=0.7)
+```
+## Price Distribution
+```{r}
+hist(cosmetics$Price, main="Distribution of Product Prices",
+     xlab="Price (USD)", col="lavender", breaks=20)
+```
+
+## Skin Type Suitability
+```{r}
+skin_types <- c("Combination","Dry","Normal","Oily","Sensitive")
+skin_counts <- colSums(cosmetics[, skin_types], na.rm=TRUE)
+barplot(skin_counts, main="Products per Skin Type",
+        col=c("peachpuff","lightblue","lightgreen","lightyellow","plum"))
+```
